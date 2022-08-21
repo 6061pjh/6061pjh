@@ -1,0 +1,51 @@
+package jobkorea;
+
+import java.io.IOException;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class MainApp {
+
+	private static String URL = "http://www.jobkorea.co.kr/Search/?";
+	
+	public static void main(String[] args) throws IOException {
+		String KEY_WORD = "jquery";
+		System.out.println("URL :: " + URL + getParameter(KEY_WORD, 2));
+		
+		Document doc = Jsoup.connect(URL + getParameter(KEY_WORD, 2)).get();
+		
+		
+//		System.out.println("" + doc.toString());
+		Elements elements = doc.select("#smGiList .list .detailList li");
+		
+		
+		int idx = 0;
+		for(Element element : elements) {
+			
+			System.out.println(++idx + " : " + element.text());
+			System.out.println("==========================================\n\n");
+		}
+	}
+
+	
+	/**
+	 * URL 
+	 * @param KEY_WORD
+	 * @param PAGE
+	 * @return
+	 */
+	public static String getParameter(String KEY_WORD, int PAGE) {
+		return "stext=" + KEY_WORD + ""
+				      + "&IsCoInfoSC=false"
+				      + "&IsRecruit=false"
+				      + "&ord=1"
+				      + "&Order=1"
+				      + "&page=" + PAGE + ""
+				      + "&pageSize=10"
+				      + "&pageType=HRP";
+	}
+	
+}
